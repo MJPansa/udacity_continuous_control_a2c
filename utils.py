@@ -94,7 +94,7 @@ def train_on_episode(model, states_list, action_list, rewards_list, lr, critic_w
     rewards = T.stack([T.Tensor(rewards_list[:, n]) for n in range(20)], dim=0).to(device)
     rewards = rewards.view(-1)
 
-    rewards = F.normalize(rewards, dim=0)
+    #rewards = F.normalize(rewards, dim=0)
 
     mus, sigmas, state_values = model(states.float())
     gaussian = dist.Normal(mus, sigmas)

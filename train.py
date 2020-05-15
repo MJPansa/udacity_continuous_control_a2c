@@ -17,12 +17,12 @@ states = env_info.vector_observations
 N_STATES = states.shape[1]
 N_ACTIONS = brain.vector_action_space_size
 N_HIDDEN = 128
-GAMMA = 0.95
-LR = 1e-4
+GAMMA = 0.99
+LR = 5e-4
 CRITIC_WEIGHT = 1
 DEVICE = 'cuda:1'
-ENTROPY_BETA = 0.0001
-N_STEPS = 5
+ENTROPY_BETA = 0.0003
+N_STEPS = 10
 
 
 model = ActorCritic(n_states=N_STATES, n_actions=N_ACTIONS, n_hidden=N_HIDDEN, lr=LR)
