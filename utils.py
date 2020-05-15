@@ -13,7 +13,8 @@ class ActorCritic(nn.Module):
         super(ActorCritic, self).__init__()
 
         self.input = nn.Linear(n_states, n_hidden)
-        self.hidden = nn.Linear(n_hidden, n_hidden)
+        self.hidden_1 = nn.Linear(n_hidden, n_hidden)
+        self.hidden_2 = nn.Linear(n_hidden, n_hidden)
         self.out_actor_sigma = nn.Linear(n_hidden, n_actions)
         self.out_actor_mu = nn.Linear(n_hidden, n_actions)
         self.out_critic = nn.Sequential(nn.Linear(n_hidden, n_hidden),
@@ -29,10 +30,11 @@ class ActorCritic(nn.Module):
             x = x.float()
 
         x = F.relu(self.input(x))
-        x = F.relu(self.hidden(x))
+        x = F.relu(self.hidden_1(x))
+        x = F.relu(self.hidden_2(x))
 
         mus = F.tanh(self.out_actor_mu(x))
-        sigmas = F.relu(self.out_actor_sigma(x))
+        sigmas = F.softplus(self.out_actor_sigma(x))
         sigmas = T.clamp(sigmas, 5e-4, 2)
         value = self.out_critic(x.detach())
 
